@@ -1,6 +1,7 @@
 import * as React from "react";
 import { graphql, Link, StaticQuery } from "gatsby";
-import { Typography, Container, Box, Grid, Divider, makeStyles, Card, CardActions, CardContent, Button, CardActionArea, CardMedia, Chip, Paper } from "@material-ui/core";
+import { Typography, Container, Box, Grid, Divider, makeStyles, Card, CardActions, CardContent, CardActionArea, CardMedia, Chip } from "@material-ui/core";
+import Img from "gatsby-image";
 
 const Blog = ({ data }) => {
     const useStyles = makeStyles((theme) => ({
@@ -12,13 +13,20 @@ const Blog = ({ data }) => {
             background: theme.palette.secondary.main,
             "& a": {
                 textDecoration: "none",
+            },
+            "& .gatsby-image-wrapper": {
+                width: "100% !important"
             }
         },
         chip: {
             background: theme.palette.secondary.main,
             "& .MuiChip-root": {
                 background: theme.palette.secondary.dark,
-                color: theme.palette.text.primary
+                color: theme.palette.text.primary,
+                cursor: "pointer",
+                "&:hover": {
+                    filter: "brightness(130%)"
+                }
             }
         }
     }));
@@ -32,9 +40,21 @@ const Blog = ({ data }) => {
                 node {
                     title
                     excerpt
-                    x_featured_media_medium
                     date
                     slug
+                    categories{
+                        name
+                        slug
+                    }
+                    featured_media{
+                      localFile{
+                        childImageSharp{
+                          fixed(height: 200) {
+                           ...GatsbyImageSharpFixed
+                          }
+                        }
+                      }
+                    }
                 }
                 }
             }
@@ -44,7 +64,7 @@ const Blog = ({ data }) => {
 
                 < section className="blog-section">
                     <Container maxWidth="lg">
-                        <Box mt={8}>
+                        <Box mt={12}>
                             <Grid spacing={3} container>
                                 <Grid component="div" item sm={12}>
                                     <Typography variant="h4" color="textPrimary" align="center">
@@ -63,12 +83,12 @@ const Blog = ({ data }) => {
                                             <Link to={node.slug}>
                                                 <CardActionArea bgcolor="primary">
                                                     <CardMedia
-                                                        component="img"
-                                                        alt="Contemplative Reptile"
+                                                        component="div"
                                                         height="180"
-                                                        image={node.x_featured_media_medium}
-                                                        title="Contemplative Reptile"
-                                                    />
+                                                    >
+                                                        <Img fixed={node.featured_media.localFile.childImageSharp.fixed}
+                                                            alt="blog post thumbnail image" />
+                                                    </CardMedia>
                                                     <CardContent>
                                                         <Typography gutterBottom variant="h5" component="h4" color="textPrimary"
                                                             dangerouslySetInnerHTML={{ __html: node.title.slice(0, 55) + "..." }}>
@@ -81,8 +101,11 @@ const Blog = ({ data }) => {
                                                 </CardActionArea>
                                             </Link>
                                             <CardActions className={classes.chip}>
-                                                <Chip size="small" label="First" />
-                                                <Chip size="small" label="Second" />
+                                                {
+                                                    node.categories.map((item, index) => {
+                                                        return <Link to={`/${item.slug}`} key={index}><Chip size="medium" label={item.name} /></Link>;
+                                                    })
+                                                }
                                             </CardActions>
                                         </Card>
                                     </Grid>

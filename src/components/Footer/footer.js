@@ -3,6 +3,10 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "gatsby";
 
+import Copyright from "./copyright";
+import FooterWidgets from "./widgets";
+import CTA from "./CTA";
+
 const Footer = () => {
     const useStyles = makeStyles((theme) => ({
         footer: {
@@ -19,15 +23,10 @@ const Footer = () => {
     }));
     const classes = useStyles();
     return (
-        <footer className={classes.footer}>
-            <Typography variant="body2" color="textPrimary" align="center">
-                {"Copyright © "}
-                <a color="inherit" href="https://rajeshroyal.com/" target="_blank">
-                    Rajesh Royal
-                </a>{" "}
-                {new Date().getFullYear()}
-                {"."}
-            </Typography>
+        <footer>
+            <CTA />
+            <FooterWidgets />
+            <Copyright />
         </footer>
     );
 };

@@ -4,19 +4,30 @@ body {
   padding: 0;
   background-color: #2b3e50;
   color: whitesmoke;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .content-container {
-  overflow: scroll;
-  height: calc(100vh - 65px);
-  overflow-x: hidden;
+  padding-top: 60px;
+}
+#header {
+  position: fixed;
 }
 
 .divider {
   max-width: 100px;
 }
+a {
+  text-decoration: none;
+}
+figure {
+  width: auto !important;
+}
 
+#nprogress {
+  position: fixed;
+  z-index: 100000;
+}
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
@@ -35,4 +46,25 @@ body {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+@media (max-width: 600px) {
+  .blog-article .MuiGrid-container {
+    display: block !important;
+  }
+  .blog-article .MuiTypography-h2 {
+    font-size: 2.75rem;
+  }
+  .Hero-section .MuiTypography-h4 {
+    font-size: 2rem;
+  }
+}
+@media (max-width: 768px) {
+  .header-toolbar {
+    flex-wrap: wrap !important;
+    justify-content: center;
+  }
+  .align-center {
+    text-align: center;
+  }
 }
